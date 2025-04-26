@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Bundle of Joy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .gallery {
+            display: flex;
+        }
+
+        .gallery-image {
+            width: 100px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.1);
+        }
+
+        .tab-content {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        #feedback {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Bundle of Joy</h1>
+
+        <!-- Button with click and hover effects -->
+        <button id="interactiveButton">Click Me!</button>
+
+        <!-- Image Gallery -->
+        <div class="gallery">
+            <img src="https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Image 1" class="gallery-image">
+            <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=300" alt="image 2" class="gallery-image">
+            <img src="https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Image 3" class="gallery-image">
+            <img src="https://images.pexels.com/photos/2007647/pexels-photo-2007647.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Image 4" class="gallery-image">
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-button" data-tab="1">Tab 1</button>
+            <button class="tab-button" data-tab="2">Tab 2</button>
+        </div>
+        <div class="tab-content" id="tab1">Content for Tab 1</div>
+        <div class="tab-content" id="tab2" style="display:none;">Content for Tab 2</div>
+
+        <!-- Form with validation -->
+        <form id="myForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Submit</button>
+            <div id="feedback"></div>
+        </form>
+    </div>
+
+    <script>
+        // Event Handling
+        const button = document.getElementById('interactiveButton');
+        button.addEventListener('click', () => {
+            button.textContent = 'Clicked!';
+            button.style.backgroundColor = 'green';
+        });
+
+        button.addEventListener('dblclick', () => {
+            alert('You double-clicked the button!');
+        });
+
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'scale(1.1)';
+        });
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+        });
+
+        // Keypress Detection
+        document.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                alert('You pressed Enter!');
+            }
+        });
+
+        // Image Gallery (simple slideshow)
+        const images = document.querySelectorAll('.gallery-image');
+        images.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                alert(`You clicked on Image ${index + 1}`);
+            });
+        });
+
+        // Tabs functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                tabContents.forEach(content => {
+                    content.style.display = content.id === `tab${tabId}` ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Form Validation
+        const form = document.getElementById('myForm');
+        const feedback = document.getElementById('feedback');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Validate Email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                feedback.textContent = 'Please enter a valid email.';
+                return;
+            }
+
+            // Validate Password
+            if (password.length < 8) {
+                feedback.textContent = 'Password must be at least 8 characters long.';
+                return;
+            }
+
+            feedback.textContent = 'Form submitted successfully!';
+        });
+
+        // Real-time feedback while typing
+        const nameField = document.getElementById('name');
+        nameField.addEventListener('input', () => {
+            if (nameField.value.length < 3) {
+                feedback.textContent = 'Name must be at least 3 characters long.';
+            } else {
+                feedback.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
